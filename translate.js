@@ -1,5 +1,24 @@
+// Toggle Dark/Light Mode
+(function startToggle() {
+    const toggle = document.getElementById("toggle");
+    toggle.addEventListener('click', toggleDarkMode);
+})();
+
+function toggleDarkMode() {
+    const htmlElement = document.documentElement;
+    const toggleText = document.getElementById("toggle-label");
+
+    if (htmlElement.getAttribute("data-bs-theme") == "dark") {
+        htmlElement.setAttribute("data-bs-theme", "light");
+        toggleText.textContent = "🔆";
+    } else {
+        htmlElement.setAttribute("data-bs-theme", "dark");
+        toggleText.textContent = "🌙";
+    }
+}
+
 // Gets the text in each text area box
-function getText() {
+(function getText() {
     const englishText = document.getElementById("english-text");
     const morseCodeText = document.getElementById("morse-code-text");
     const pigLatinText = document.getElementById("pig-latin-text");
@@ -7,7 +26,7 @@ function getText() {
     englishText.addEventListener("input", englishTranslations.bind(null, englishText));
     morseCodeText.addEventListener("input", morseCodeTranslations.bind(null, morseCodeText, englishText));
     pigLatinText.addEventListener("input", pigLatinTranslations.bind(null, pigLatinText, englishText));
-}
+})();
 
 // For Event Listeners
 function englishTranslations(englishText) {
@@ -205,5 +224,3 @@ const morseDictionary = {
     "@": ".--.-.",
     " ": "/"
 }
-
-getText();

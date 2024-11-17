@@ -1,14 +1,40 @@
+h2,
+.translate-div,
+.information-div {
+    margin-top: 2rem;
+}
+
 #english-text,
 #morse-code-text,
 #pig-latin-text {
-    height: 7.5rem;
+    height: 12.5rem;
     width: 25rem;
 }
 
-.translate-div {
+h2,
+p {
+    text-align: center;
+}
+
+.translate-div,
+.information-div {
     display: flex;
     flex-wrap: wrap;
+}
+
+.translate-div {
     justify-content: center;
     align-items: center;
     gap: 1rem;
+}
+
+.information-div {
+    justify-content: space-evenly;
+    align-items: normal;
+}
+
+#switch-div {
+    display: flex;
+    justify-content: right;
+    gap: 0.5rem;
 }
