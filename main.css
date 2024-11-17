@@ -1,0 +1,14 @@
+#english-text,
+#morse-code-text,
+#pig-latin-text {
+    height: 7.5rem;
+    width: 25rem;
+}
+
+.translate-div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
