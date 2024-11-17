@@ -4,25 +4,108 @@ function getText() {
     const morseCodeText = document.getElementById("morse-code-text");
     const pigLatinText = document.getElementById("pig-latin-text");
 
-    englishText.addEventListener("input", englishToMorse.bind(null, englishText));
-    morseCodeText.addEventListener("input", morseToEnglish.bind(null, morseCodeText));
-/*     pigLatinText.addEventListener("input", getInputText.bind(null, pigLatinText)); */
+    englishText.addEventListener("input", englishTranslations.bind(null, englishText));
+    morseCodeText.addEventListener("input", morseCodeTranslations.bind(null, morseCodeText, englishText));
+    pigLatinText.addEventListener("input", pigLatinTranslations.bind(null, pigLatinText, englishText));
 }
 
-// Each time there is an input, print the text in console for checking
-function getInputText(text) {
-    console.log(text.value);
+// For Event Listeners
+function englishTranslations(englishText) {
+    englishToMorse(englishText);
+    englishToPigLatin(englishText);
+}
+
+function morseCodeTranslations(morseCodeText, englishText) {
+    morseToEnglish(morseCodeText);
+    englishToPigLatin(englishText);
+}
+
+function pigLatinTranslations(pigLatinText, englishText) {
+    pigLatinToEnglish(pigLatinText);
+    englishToMorse(englishText);
+}
+
+// Translations
+
+function englishToPigLatin(englishText) {
+    const pigLatinText = document.getElementById("pig-latin-text");
+    let word = "";
+    let wordArray = "";
+    let pig = "";
+    let vowels = ["A", "E", "I", "O", "U"];
+
+    // Trim the text for excess white space and capitalize it
+    if (englishText.value.trim().length > 0) {
+        word = englishText.value.trim().toUpperCase();
+        wordArray = word.split(" ");
+    }
+
+    console.log(wordArray);
+    console.log(wordArray.length);
+
+    // Loop through all of the words
+    for (let i = 0; i < wordArray.length; i++) {
+        // Check if the first letter starts with a vowel, if it does - keep the word and add "way" at the end
+        if (vowels.includes(wordArray[i][0])) {
+            pig += wordArray[i] + "WAY ";
+        } else { // Else find the first vowel in the string, move the consonants before it to the end and add "ay" at the end
+            let vowelIndex = -1;
+            for (let j = 0; j < wordArray[i].length; j++) {
+                // If a vowel is found, move consonants, and break out of loop
+                if (vowels.includes(wordArray[i][j])) {
+                    vowelIndex = j;
+                    pig += wordArray[i].slice(vowelIndex) + wordArray[i].slice(0, vowelIndex) + "AY ";
+                    break;
+                }
+            }
+        }
+    }
+
+    pigLatinText.value = pig;
+}
+
+function pigLatinToEnglish(pigLatinText) {
+    const englishText = document.getElementById("english-text");
+    let pigArray = "";
+    let english = "";
+
+    // Trim the pig latin text for excess white spaces, if it's not empty split it into an array
+    if (pigLatinText.value.trim().length > 0) {
+        pigArray = pigLatinText.value.trim().toUpperCase().split(" ");
+    }
+
+    console.log(pigArray);
+
+    // Check the index for "WAY" or "AY" (if greater than -1 then it exists) and get the index(es) before it, slice the "WAY" or "AY" and move consonants if applicable
+    for (let i = 0; i < pigArray.length; i++) {
+        if (pigArray[i].indexOf("WAY") > -1) {
+            english += pigArray[i].slice(0, pigArray[i].indexOf("WAY"));
+        } else if (pigArray[i].indexOf("AY") > -1) {
+            const pigWordNoAy = pigArray[i].slice(0, pigArray[i].indexOf("AY"));
+            console.log(pigWordNoAy);
+            const pigWordNoAyLength = pigWordNoAy.length;
+            console.log(pigWordNoAyLength);
+            // Get consonant clusters and move them back to the front
+        } else {
+            english += "# ";
+            continue;
+        }
+    }
+
+    englishText.value = english;
+
 }
 
 // Loop through the capitalized English word(s) and if it's in the dictionary, translate it else put a #; add a space at the end and set the morse code text
 function englishToMorse(englishText) {
     const morseCodeText = document.getElementById("morse-code-text");
+    let word = "";
     let morse = "";
 
     // Trim the text for excess white space and capitalize it
     word = englishText.value.trim().toUpperCase();
 
-    for(let i = 0; i < word.length; i++) {
+    for (let i = 0; i < word.length; i++) {
         morse += (morseDictionary[word[i]] || "#") + " ";
     }
     morseCodeText.value = morse;
@@ -39,7 +122,7 @@ function morseToEnglish(morseCodeText) {
         morseArray = morseCodeText.value.trim().split(" ");
     }
     
-    for(let i = 0; i < morseArray.length; i++) {
+    for (let i = 0; i < morseArray.length; i++) {
         english += getKeyByValue(morseDictionary, morseArray[i]);
     }
     englishText.value = english;
