@@ -1,9 +1,11 @@
+/* Margins */
 h2,
 .translate-div,
 .information-div {
     margin-top: 2rem;
 }
 
+/* Textarea Input Boxes */
 #english-text,
 #morse-code-text,
 #pig-latin-text {
@@ -11,11 +13,13 @@ h2,
     width: 25rem;
 }
 
+/* Text Alignment */
 h2,
 p {
     text-align: center;
 }
 
+/* Divs */
 .translate-div,
 .information-div {
     display: flex;

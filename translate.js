@@ -1,4 +1,4 @@
-// Toggle Dark/Light Mode
+// Click to Toggle Dark/Light Mode
 (function startToggle() {
     const toggle = document.getElementById("toggle");
     toggle.addEventListener('click', toggleDarkMode);
@@ -17,7 +17,7 @@ function toggleDarkMode() {
     }
 }
 
-// Gets the text in each text area box
+// Gets the text in each text area box and adds an event listener to each
 (function getText() {
     const englishText = document.getElementById("english-text");
     const morseCodeText = document.getElementById("morse-code-text");
@@ -28,7 +28,7 @@ function toggleDarkMode() {
     pigLatinText.addEventListener("input", pigLatinTranslations.bind(null, pigLatinText, englishText));
 })();
 
-// For Event Listeners
+// Function for Event Listeners
 function englishTranslations(englishText) {
     englishToMorse(englishText);
     englishToPigLatin(englishText);
@@ -44,8 +44,9 @@ function pigLatinTranslations(pigLatinText, englishText) {
     englishToMorse(englishText);
 }
 
-// Translations
-
+// TRANSLATIONS BELOW
+// Todo: English to Pig Latin using punctuations/symbols
+// Todo: Pig Latin to English "AY" and consonants
 function englishToPigLatin(englishText) {
     const pigLatinText = document.getElementById("pig-latin-text");
     let word = "";
@@ -147,7 +148,7 @@ function morseToEnglish(morseCodeText) {
     englishText.value = english;
 }
 
-// Reference: https://www.geeksforgeeks.org/how-to-get-a-key-in-a-javascript-object-by-its-value/ (Number 5.)
+// Reference: https://www.geeksforgeeks.org/how-to-get-a-key-in-a-javascript-object-by-its-value/ (Code in Number 5.)
 // The object in this case is the dictionary, we use the value to get the key
 function getKeyByValue(object, value) {
     // Get the array of object values
