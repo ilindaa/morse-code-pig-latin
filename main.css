@@ -1,20 +1,29 @@
-/* Margins */
-h2,
-.translate-div,
-.information-div {
-    margin-top: 2rem;
+html {
+    scroll-behavior: smooth;
 }
 
-/* Textarea Input Boxes */
-#english-text,
-#morse-code-text,
-#pig-latin-text {
-    height: 12.5rem;
+/* Margins */
+.margin-div {
+    margin: 8rem 0 8rem 0;
+}
+
+/* .translate-div,
+.information-div {
+    margin-top: 2.5rem;
+} */
+
+/* Language div of textarea and textarea */
+.language-div {
     width: 25rem;
+}
+
+textarea {
+    height: 10rem;
 }
 
 /* Text Alignment */
 h2,
+h3,
 p {
     text-align: center;
 }
@@ -37,8 +46,26 @@ p {
     align-items: normal;
 }
 
+.info-div {
+    width: 30%;
+    text-wrap: wrap;
+}
+
 #switch-div {
     display: flex;
     justify-content: right;
     gap: 0.5rem;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    opacity: 0.75;
+}
+
+.top-btn {
+    height: 2.4rem;
+    width: 2.4rem;
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
 }

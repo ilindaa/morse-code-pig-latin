@@ -1,7 +1,7 @@
 // Click to Toggle Dark/Light Mode
 (function startToggle() {
     const toggle = document.getElementById("toggle");
-    toggle.addEventListener('click', toggleDarkMode);
+    toggle.addEventListener("click", toggleDarkMode);
 })();
 
 function toggleDarkMode() {
@@ -16,6 +16,15 @@ function toggleDarkMode() {
         toggleText.textContent = "🌙";
     }
 }
+
+// Click to go back to the top of the page
+(function backToTop() {
+    const topBtn = document.querySelector(".top-btn");
+    topBtn.addEventListener("click", () => {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0; 
+    });
+})();
 
 // Gets the text in each text area box and adds an event listener to each
 (function getText() {
@@ -45,18 +54,18 @@ function pigLatinTranslations(pigLatinText, englishText) {
 }
 
 // TRANSLATIONS BELOW
-// Todo: English to Pig Latin using punctuations/symbols
+// Todo: English to Pig Latin using punctuations/symbols and capitalization
 // Todo: Pig Latin to English "AY" and consonants
 function englishToPigLatin(englishText) {
     const pigLatinText = document.getElementById("pig-latin-text");
     let word = "";
     let wordArray = "";
     let pig = "";
-    let vowels = ["A", "E", "I", "O", "U"];
+    let vowels = ["A", "E", "I", "O", "U", "a", "e", "i", "o", "u"];
 
-    // Trim the text for excess white space and capitalize it
+    // Trim the text for excess white space
     if (englishText.value.trim().length > 0) {
-        word = englishText.value.trim().toUpperCase();
+        word = englishText.value.trim();
         wordArray = word.split(" ");
     }
 
@@ -65,23 +74,37 @@ function englishToPigLatin(englishText) {
 
     // Loop through all of the words
     for (let i = 0; i < wordArray.length; i++) {
-        // Check if the first letter starts with a vowel, if it does - keep the word and add "way" at the end
-        if (vowels.includes(wordArray[i][0])) {
-            pig += wordArray[i] + "WAY ";
+        // Set the current word to be the word looped in the wordArray
+        let currentWord = wordArray[i];
+        // Check if the first letter of the word starts with a vowel, if it does - keep the word and add "way" at the end
+        if (vowels.includes(currentWord[0])) {
+            let suffix = isSuffixCapitalized(currentWord, "WAY ");
+            pig += wordArray[i] + suffix;
         } else { // Else find the first vowel in the string, move the consonants before it to the end and add "ay" at the end
             let vowelIndex = -1;
-            for (let j = 0; j < wordArray[i].length; j++) {
+            for (let j = 0; j < currentWord.length; j++) {
                 // If a vowel is found, move consonants, and break out of loop
-                if (vowels.includes(wordArray[i][j])) {
+                if (vowels.includes(currentWord[j])) {
+                    let suffix = isSuffixCapitalized(currentWord, "AY ");
                     vowelIndex = j;
-                    pig += wordArray[i].slice(vowelIndex) + wordArray[i].slice(0, vowelIndex) + "AY ";
+                    pig += currentWord.slice(vowelIndex) + currentWord.slice(0, vowelIndex) + suffix;
                     break;
                 }
             }
         }
     }
 
-    pigLatinText.value = pig;
+    pigLatinText.value = pig.trim();
+}
+
+// Check if the suffix should be capitalized based on the last character's capitalization and return it
+function isSuffixCapitalized(currentWord, str) {
+    const lastLetter = currentWord[currentWord.length - 1];
+    if (lastLetter === lastLetter.toUpperCase()) {
+        return str.toUpperCase();
+    } else {
+        return str.toLowerCase();
+    }
 }
 
 function pigLatinToEnglish(pigLatinText) {
@@ -112,8 +135,7 @@ function pigLatinToEnglish(pigLatinText) {
         }
     }
 
-    englishText.value = english;
-
+    englishText.value = english.trim();
 }
 
 // Loop through the capitalized English word(s) and if it's in the dictionary, translate it else put a #; add a space at the end and set the morse code text
@@ -128,7 +150,8 @@ function englishToMorse(englishText) {
     for (let i = 0; i < word.length; i++) {
         morse += (morseDictionary[word[i]] || "#") + " ";
     }
-    morseCodeText.value = morse;
+
+    morseCodeText.value = morse.trim();
 }
 
 // Split the morse code by spaces so they're individual codes, get the key from the value in the dictionary
@@ -145,7 +168,8 @@ function morseToEnglish(morseCodeText) {
     for (let i = 0; i < morseArray.length; i++) {
         english += getKeyByValue(morseDictionary, morseArray[i]);
     }
-    englishText.value = english;
+
+    englishText.value = english.trim();
 }
 
 // Reference: https://www.geeksforgeeks.org/how-to-get-a-key-in-a-javascript-object-by-its-value/ (Code in Number 5.)
