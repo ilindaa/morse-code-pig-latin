@@ -54,8 +54,7 @@ function pigLatinTranslations(pigLatinText, englishText) {
 }
 
 // TRANSLATIONS BELOW
-// Todo: English to Pig Latin using punctuations/symbols and capitalization
-// Todo: Pig Latin to English "AY" and consonants
+// Todo: English to Pig Latin using punctuations/symbols
 function englishToPigLatin(englishText) {
     const pigLatinText = document.getElementById("pig-latin-text");
     let word = "";
@@ -85,9 +84,8 @@ function englishToPigLatin(englishText) {
             for (let j = 0; j < currentWord.length; j++) {
                 // If a vowel is found, move consonants, and break out of loop
                 if (vowels.includes(currentWord[j])) {
-                    let suffix = isSuffixCapitalized(currentWord, "AY ");
                     vowelIndex = j;
-                    pig += currentWord.slice(vowelIndex) + currentWord.slice(0, vowelIndex) + suffix;
+                    pig += isAYProperlyCapitalized(currentWord, vowelIndex);
                     break;
                 }
             }
@@ -97,16 +95,47 @@ function englishToPigLatin(englishText) {
     pigLatinText.value = pig.trim();
 }
 
+// Check if the word is capitalized, if so return true else return false
+function checkWordCapitalized(word) {
+    if (word === word.toUpperCase()) {
+        return true;
+    }
+    return false;
+}
+
 // Check if the suffix should be capitalized based on the last character's capitalization and return it
 function isSuffixCapitalized(currentWord, str) {
     const lastLetter = currentWord[currentWord.length - 1];
-    if (lastLetter === lastLetter.toUpperCase()) {
+    if (checkWordCapitalized(lastLetter)) {
         return str.toUpperCase();
-    } else {
-        return str.toLowerCase();
     }
+    return str.toLowerCase();
 }
 
+// Check if the AY phrase is properly capitalized
+function isAYProperlyCapitalized(currentWord, vowelIndex) {
+    let suffix = isSuffixCapitalized(currentWord, "AY ");
+    let afterVowel = currentWord.slice(vowelIndex);
+    let consonants = currentWord.slice(0, vowelIndex);
+
+    // If the consonant is capitalized, the first letter in the after vowel word should be capitalized
+    if (checkWordCapitalized(consonants)) {
+        afterVowel = afterVowel[0].toUpperCase() + afterVowel.slice(1);
+    }
+
+    // If the suffix is lowercase, the consonant added to the end should be lowercase too, vice versa
+    if (checkWordCapitalized(suffix)) {
+        consonants = consonants.toUpperCase();
+    } else {
+        consonants = consonants.toLowerCase();
+    }
+    
+    return afterVowel + consonants + suffix;
+}
+
+// Todo: Pig Latin to English using punctuations/symbols
+// Todo: Move consonants back to beginning
+// Todo: Capitalization
 function pigLatinToEnglish(pigLatinText) {
     const englishText = document.getElementById("english-text");
     let pigArray = "";
